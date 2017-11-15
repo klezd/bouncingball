@@ -1,0 +1,61 @@
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+ </head>
+ <body>
+   <canvas id="canvas" width="450" height="450" style="border: 1px black solid; background-color: #49E6C7">
+     <p>This example requires a browser that supports the canvas</p>
+   </canvas>
+  <script>
+
+	// http://cheatsheetworld.com/programming/html5-canvas-cheat-sheet/
+	// http://www.html5canvastutorials.com/
+
+	var canvas = document.getElementById("canvas")
+	var ctx = canvas.getContext("2d");
+
+  var ballX = 100;
+  var ballY = 120;
+  var directionX = 1; // to the right
+  var directionY = 1; // go down
+  var speedX = 2;
+  var speedY = 5;
+
+  function drawBall(x,y){
+    ctx.beginPath();
+    ctx.arc(x,y, 30, 0, Math.PI *2); // 0 is starting rad, Math.pi*2 is ending in radian
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  function update() {
+    ctx.clearRect(0,0, 450, 450);
+    drawBall(ballX, ballY);
+
+    if((ballX >= 420) || (ballX <= 30)) //meets the edge
+    {
+      directionX = directionX*(-1);
+    }
+    if((ballY >= 420) || (ballY <= 30)) //meets the edge
+    {
+      directionY = directionY*(-1);
+    }
+
+
+    ballX = ballX + (directionX*speedX);
+    ballY = ballY + (directionY*speedY);
+
+
+  //  setTimeout(update, 100); //set inside func so after 1s the update() will run again
+  //replace with
+  window.requestAnimationFrame(update);
+  }
+
+
+  update();
+
+
+
+  </script>
+</body>
+</html>
