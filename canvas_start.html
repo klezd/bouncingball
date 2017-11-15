@@ -1,0 +1,94 @@
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+ </head>
+ <body>
+   <canvas id="canvas" width="600" height="600" style="border: 1px black solid; background-color: #49E6C7">
+     <p>This example requires a browser that supports the canvas</p>
+   </canvas>
+  <script>
+
+	// http://cheatsheetworld.com/programming/html5-canvas-cheat-sheet/
+	// http://www.html5canvastutorials.com/
+
+	var canvas = document.getElementById("canvas")
+	var ctx = canvas.getContext("2d");
+  var color = ['green', 'red', 'yellow', 'blue', 'pink'];
+
+  var Ball = {  //class Ball
+    x : 0,
+    y : 0,
+    dx: 1,
+    dy: 1,
+    sx: 5,
+    sy: 1,
+    d: 30,
+    color: 'red',
+    init: function()
+    {
+      this.x = Math.random()*400;
+      this.y = Math.random()*400;
+      this.sx = Math.random()*5;
+      this.sy = Math.random()*10;
+      this.d = Math.random()*50+10;
+      this.color = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+    },
+    draw: function()
+    {
+      ctx.strokeStyle = this.color;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.d, 0, Math.PI *2); // 0 is starting rad, Math.pi*2 is ending in radian
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fill();
+    },
+    update: function()
+    {
+      if((this.x >= 600) || (this.x <= 0)) //meets the edge
+      {
+        this.dx = this.dx*(-1);
+      }
+
+      if((this.y >= 600) || (this.y<= 0)) //meets the edge
+      {
+        this.dy = this.dy*(-1);
+      }
+
+
+      this.x = this.x + (this.dx * this.sx);
+      this.y = this.y + (this.dy * this.sy);
+    }
+  };
+
+  //var ball = Object.create(Ball);
+
+  //create array to hold the balls
+  var balls = [];
+  for(var i = 0; i < (Math.random()*10 + 5); i++)
+  {
+    var b = Object.create(Ball);
+    b.init();
+    balls.push(b);
+  }
+
+  function update() {
+    ctx.clearRect(0,0, 600, 600);
+
+    //ball.draw();
+    //ball.update();
+
+    balls.forEach(function(b){
+      b.draw();
+      b.update();
+    });
+  //setTimeout(update, 1000); //set inside func so after 1s the update() will run again
+  //replace with
+    window.requestAnimationFrame(update);
+  }
+
+  update();
+
+  </script>
+</body>
+</html>
